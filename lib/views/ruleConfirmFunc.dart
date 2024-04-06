@@ -59,12 +59,25 @@ void shareWidgetImage(
     if (byteData == null) {
       return;
     }
+
+    // Setting file name
+    String fileName;
+    fileName = globalKey.toString().replaceAll("GlobalKey", "");
+    fileName = fileName.replaceAll("[", "");
+    fileName = fileName.replaceAll("]", "");
+    if (globalKey == textFielldKey) {
+      fileName = 'mj-rule2-${fileName}';
+    } else if (globalKey == globalKey) {
+      fileName = 'mj-rule1-${fileName}';
+    } else {
+      fileName = globalKey.toString();
+    }
     // Convert the image to Uint8List
     var widgetImageBytes = byteData.buffer
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
     // Save the image to local path
     var applicationDocumensFile = await getApplicationDocumentsFile(
-      globalKey.toString(),
+      fileName,
       widgetImageBytes,
     );
     imgPathList.add(applicationDocumensFile.path);

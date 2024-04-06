@@ -1,24 +1,24 @@
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app_mj/common/constants.dart';
 import 'package:flutter_app_mj/views/ruleConfirmFunc.dart';
 
 class RuleConfirm extends StatefulWidget {
-  final bool switchKuitanValue;
-  final bool switchAtozukeValue;
-  final String ddlFuCalcValue;
+  final String kyokusuValue;
+  final String renchanValue;
+  final String tochuryukyokuValue;
+  final String agariyameValue;
+  final String kuitanaAtozukeValue;
+  final String fuCalcValue;
   final String freeTextFieldValue;
 
   const RuleConfirm({
     super.key,
-    required this.switchKuitanValue,
-    required this.switchAtozukeValue,
-    required this.ddlFuCalcValue,
+    required this.kyokusuValue,
+    required this.renchanValue,
+    required this.tochuryukyokuValue,
+    required this.agariyameValue,
+    required this.kuitanaAtozukeValue,
+    required this.fuCalcValue,
     required this.freeTextFieldValue,
   });
 
@@ -27,19 +27,23 @@ class RuleConfirm extends StatefulWidget {
 }
 
 class _RuleConfirmState extends State<RuleConfirm> {
-  String _strKuitanChoiceMoji = '';
-  String _strAtozukehoiceMoji = '';
-  String _ddlFuCalcValueMoji = '';
+  String _kyokusuueMoji = '';
+  String _renchanMoji = '';
+  String _tochuryukyokuMoji = '';
+  String _agariyameMoji = '';
+  String _kuitanAtozukeMoji = '';
+  String _fuCalcValueMoji = '';
   String _freeTextFieldMoji = '';
 
   @override
   void initState() {
     super.initState();
-    _strKuitanChoiceMoji =
-        widget.switchKuitanValue ? ariNashi.ari : ariNashi.nashi;
-    _strAtozukehoiceMoji =
-        widget.switchAtozukeValue ? ariNashi.ari : ariNashi.nashi;
-    _ddlFuCalcValueMoji = widget.ddlFuCalcValue;
+    _kyokusuueMoji = widget.kyokusuValue;
+    _renchanMoji = widget.renchanValue;
+    _tochuryukyokuMoji = widget.tochuryukyokuValue;
+    _agariyameMoji = widget.agariyameValue;
+    _kuitanAtozukeMoji = widget.kuitanaAtozukeValue;
+    _fuCalcValueMoji = widget.fuCalcValue;
     _freeTextFieldMoji = widget.freeTextFieldValue;
   }
 
@@ -62,70 +66,113 @@ class _RuleConfirmState extends State<RuleConfirm> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: Column(
-        children: [
-          RepaintBoundary(
-            key: convertWidgetToImageKey,
-            child: Container(
-              color: Theme.of(context).colorScheme.background,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  ListTile(
-                    title: const Text(mjRule.kuitan),
-                    subtitle: Text(_strKuitanChoiceMoji),
-                  ),
-                  ListTile(
-                    title: const Text(mjRule.atozuke),
-                    subtitle: Text(_strAtozukehoiceMoji),
-                  ),
-                  ListTile(
-                    title: const Text(mjRule.fu_calc),
-                    subtitle: Text(_ddlFuCalcValueMoji),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            RepaintBoundary(
+              key: convertWidgetToImageKey,
+              child: Container(
+                color: Theme.of(context).colorScheme.background,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    ListTile(
+                      title: const Text(mjRule.kyokusu),
+                      subtitle: Text(_kyokusuueMoji),
+                    ),
+                    ListTile(
+                      title: const Text(mjRule.renchan),
+                      subtitle: Text(_renchanMoji),
+                    ),
+                    ListTile(
+                      title: const Text(mjRule.tochuryukyoku),
+                      subtitle: Text(_tochuryukyokuMoji),
+                    ),
+                    ListTile(
+                      title: const Text(mjRule.agariyame),
+                      subtitle: Text(_agariyameMoji),
+                    ),
+                    ListTile(
+                      title: const Text(mjRule.kuitanAtoduke),
+                      subtitle: Text(_kuitanAtozukeMoji),
+                    ),
+                    ListTile(
+                      title: const Text(mjRule.fu_calc),
+                      subtitle: Text(_fuCalcValueMoji),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          RepaintBoundary(
-            key: convertTextareaToImageKey,
-            child: Container(
-              color: Theme.of(context).colorScheme.background,
-              child: ListTile(
-                title: const Text('自由入力項目'),
-                subtitle: Text(_freeTextFieldMoji),
+            RepaintBoundary(
+              key: convertTextareaToImageKey,
+              child: Container(
+                color: Theme.of(context).colorScheme.background,
+                child: ListTile(
+                  title: const Text(mjRule.freeTextAreaLabel),
+                  subtitle: Text(_freeTextFieldMoji),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
-        width: MediaQuery.of(context).size.width - 20,
-        height: 56, // Standard Material Design FAB height.
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: FloatingActionButton.extended(
+      bottomNavigationBar: _widgetBottomButton(),
+      // floatingActionButton: Container(
+      //   width: MediaQuery.of(context).size.width - 20,
+      //   height: 56, // Standard Material Design FAB height.
+      //   margin: const EdgeInsets.symmetric(horizontal: 10),
+      //   child: FloatingActionButton.extended(
+      //     backgroundColor: Theme.of(context).colorScheme.primary,
+      //     onPressed: () {
+      //       shareWidgetImage(
+      //           globalKey: convertWidgetToImageKey,
+      //           textFielldKey: convertTextareaToImageKey);
+      //     },
+      //     icon: Icon(
+      //       Icons.share,
+      //       color: Theme.of(context).colorScheme.onPrimary,
+      //     ),
+      //     label: Text(
+      //       'シェア',
+      //       style: TextStyle(
+      //           color: Theme.of(context).colorScheme.onPrimary,
+      //           fontSize: appDesign.btnFontSize,
+      //           fontWeight: FontWeight.bold),
+      //     ),
+      //     shape: RoundedRectangleBorder(
+      //       borderRadius:
+      //           BorderRadius.circular(28), // Adjust the corner radius if needed
+      //     ),
+      //   ),
+      // ),
+    );
+  }
+
+  Widget _widgetBottomButton() {
+    return BottomAppBar(
+      color: Theme.of(context).colorScheme.background,
+      elevation: 0,
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 60),
           backgroundColor: Theme.of(context).colorScheme.primary,
-          onPressed: () {
-            shareWidgetImage(
-                globalKey: convertWidgetToImageKey,
-                textFielldKey: convertTextareaToImageKey);
-          },
-          icon: Icon(
-            Icons.share,
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-          label: Text(
-            'シェア',
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: appDesign.btnFontSize,
-                fontWeight: FontWeight.bold),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(28), // Adjust the corner radius if needed
-          ),
+        ),
+        onPressed: () {
+          shareWidgetImage(
+              globalKey: convertWidgetToImageKey,
+              textFielldKey: convertTextareaToImageKey);
+        },
+        icon: Icon(
+          Icons.share,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        label: Text(
+          "シェア",
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: appDesign.btnFontSize,
+              fontWeight: FontWeight.bold),
         ),
       ),
     );

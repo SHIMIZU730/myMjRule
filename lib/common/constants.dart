@@ -1,11 +1,14 @@
+const String appName = "My麻雀ルール";
+
 class mjRule {
   static const String kyokusu = "曲数";
   static const String renchan = "連荘条件";
   static const String tochuryukyoku = "途中流局";
+  static const String agariyame = "アガリやめ";
   static const String kuitanAtoduke = "食いタン・後付け";
-  static const String kuitan = "kuitan";
   static const String atozuke = "後付け";
   static const String fu_calc = "符計算";
+  static const String freeTextAreaLabel = "自由入力項目";
 }
 
 class kyokuRule {
@@ -24,6 +27,11 @@ class renchanRule {
 class tochuryukyokuRule {
   static const String ari = "あり";
   static const String nashi = "なし";
+}
+
+class agariyameRule {
+  static const String dekiru = "できる";
+  static const String dekinai = "できない";
 }
 
 class kuitanAtodukeRule {
