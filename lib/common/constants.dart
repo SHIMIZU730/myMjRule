@@ -1,4 +1,6 @@
 const String appName = "My麻雀ルール";
+const String priPolicyUrl =
+    "http://flutter-privacypolicy.s3-website-ap-northeast-1.amazonaws.com/";
 
 class mjRule {
   static const String kyokusu = "曲数";

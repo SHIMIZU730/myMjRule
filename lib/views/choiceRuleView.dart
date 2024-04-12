@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_mj/admob/ad_mod.dart';
+// import 'package:flutter_app_mj/admob/ad_mod.dart';
 import 'package:flutter_app_mj/common/constants.dart';
 import 'package:flutter_app_mj/views/ruleConfirmView.dart';
 import 'package:flutter_app_mj/common/utils.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChoiceRule extends StatefulWidget {
   @override
@@ -25,13 +26,13 @@ class _ChoiceRuleState extends State<ChoiceRule> {
   String _freeTextFieldValue = "";
 
   // Admob
-  final AdMob _adMob = AdMob();
+  // final AdMob _adMob = AdMob();
 
   @override
   void initState() {
     super.initState();
     _freeTextFieldController = TextEditingController();
-    _adMob.load();
+    // _adMob.load();
     _initData();
   }
 
@@ -44,7 +45,7 @@ class _ChoiceRuleState extends State<ChoiceRule> {
   @override
   void dispose() {
     super.dispose();
-    _adMob.dispose();
+    // _adMob.dispose();
   }
 
   Future<void> _loadData() async {
@@ -524,44 +525,98 @@ class _ChoiceRuleState extends State<ChoiceRule> {
                 ListTile(
                   title: const Text("保存したルールをリセット"),
                   onTap: () {
-                    FocusScope.of(context).unfocus();
-                    _resetData();
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('保存したルールをリセットしました。',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
-                        duration: const Duration(seconds: 2),
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .primary, // Changed background color to green
-                      ),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('確認'),
+                          content: const Text('本当にリセットしてもよろしいですか？'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('いいえ'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('はい'),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close dialog
+                                _resetData();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text('保存したルールをリセットしました。',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold)),
+                                    duration: const Duration(seconds: 2),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                );
+                                Navigator.pop(context); // Close drawer
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text("プライバシーポリシー"),
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('確認'),
+                          content: const Text('web画面に遷移してもよろしいですか？'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('いいえ'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('はい'),
+                              onPressed: () async {
+                                Navigator.of(context).pop(); // Close dialog
+                                // for privacypolicy url
+                                final url = Uri.parse(priPolicyUrl);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
                 ),
               ],
             ),
           ),
-          FutureBuilder(
-              future: AdSize.getAnchoredAdaptiveBannerAdSize(
-                  Orientation.portrait,
-                  MediaQuery.of(context).size.width.truncate()),
-              builder: (BuildContext context,
-                  AsyncSnapshot<AnchoredAdaptiveBannerAdSize?> snapshot) {
-                if (snapshot.hasData) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: _adMob.getAdBanner(),
-                  );
-                } else {
-                  return Container(
-                    height: _adMob.getAdBannerHeight(),
-                    color: Colors.white,
-                  );
-                }
-              }),
+          // FutureBuilder(
+          //     future: AdSize.getAnchoredAdaptiveBannerAdSize(
+          //         Orientation.portrait,
+          //         MediaQuery.of(context).size.width.truncate()),
+          //     builder: (BuildContext context,
+          //         AsyncSnapshot<AnchoredAdaptiveBannerAdSize?> snapshot) {
+          //       if (snapshot.hasData) {
+          //         return SizedBox(
+          //           width: double.infinity,
+          //           child: _adMob.getAdBanner(),
+          //         );
+          //       } else {
+          //         return Container(
+          //           height: _adMob.getAdBannerHeight(),
+          //           color: Colors.white,
+          //         );
+          //       }
+          //     }),
         ],
       )),
     );

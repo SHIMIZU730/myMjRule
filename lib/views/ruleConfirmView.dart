@@ -118,34 +118,6 @@ class _RuleConfirmState extends State<RuleConfirm> {
         ),
       ),
       bottomNavigationBar: _widgetBottomButton(),
-      // floatingActionButton: Container(
-      //   width: MediaQuery.of(context).size.width - 20,
-      //   height: 56, // Standard Material Design FAB height.
-      //   margin: const EdgeInsets.symmetric(horizontal: 10),
-      //   child: FloatingActionButton.extended(
-      //     backgroundColor: Theme.of(context).colorScheme.primary,
-      //     onPressed: () {
-      //       shareWidgetImage(
-      //           globalKey: convertWidgetToImageKey,
-      //           textFielldKey: convertTextareaToImageKey);
-      //     },
-      //     icon: Icon(
-      //       Icons.share,
-      //       color: Theme.of(context).colorScheme.onPrimary,
-      //     ),
-      //     label: Text(
-      //       'シェア',
-      //       style: TextStyle(
-      //           color: Theme.of(context).colorScheme.onPrimary,
-      //           fontSize: appDesign.btnFontSize,
-      //           fontWeight: FontWeight.bold),
-      //     ),
-      //     shape: RoundedRectangleBorder(
-      //       borderRadius:
-      //           BorderRadius.circular(28), // Adjust the corner radius if needed
-      //     ),
-      //   ),
-      // ),
     );
   }
 

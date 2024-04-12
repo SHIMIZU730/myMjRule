@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app_mj/common/constants.dart';
 import 'package:flutter_app_mj/views/choiceRuleView.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:floating_bubbles/floating_bubbles.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'theme.dart';
 
 void main() {
   // Initialize admob
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize();
+  // MobileAds.instance.initialize();
 
   runApp(const MyApp());
 }
@@ -46,19 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Container(
           color: Colors.white,
         )),
-        Positioned.fill(
-            child: FloatingBubbles.alwaysRepeating(
-          noOfBubbles: 50,
-          colorsOfBubbles: const [
-            Color.fromARGB(255, 5, 166, 18),
-            Color.fromARGB(255, 102, 222, 176),
-          ],
-          sizeFactor: 0.2,
-          opacity: 70,
-          speed: BubbleSpeed.slow,
-          paintingStyle: PaintingStyle.fill,
-          shape: BubbleShape.circle,
-        )),
         Positioned(
           child: Center(
             child: Column(
@@ -67,32 +53,30 @@ class _MyHomePageState extends State<MyHomePage> {
                 const Text(
                   appName,
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Colors.blueGrey,
                   ),
                 ),
-                const SizedBox(height: 100),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor, // ボタンの背景色
-                    foregroundColor: Colors.white, // ボタンの前景色
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0), // ボタンの角の丸みを設定
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 20), // パディングを調整
+                Image.asset(
+                  'assets/icon/logo_mymj_touka_1024.png',
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: MediaQuery.of(context).size.height * 0.4,
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
                   ),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
                       whiteOut(ChoiceRule()),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'Get Started',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor, // プライマリーカラーを適用
                     ),
                   ),
                 ),
@@ -103,30 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ]),
     );
   }
-
-  // PageRouteBuilder<Object?> flipTransition(Widget screen) {
-  //   return PageRouteBuilder(
-  //     pageBuilder: (context, animation, secondaryAnimation) => screen,
-  //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //       return AnimatedBuilder(
-  //         animation: animation,
-  //         builder: (context, child) {
-  //           final flipAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-  //             CurvedAnimation(parent: animation, curve: Curves.linear),
-  //           );
-  //           return Transform(
-  //             transform: Matrix4.identity()
-  //               ..setEntry(3, 2, 0.001)
-  //               ..rotateY(2 * 3.14 * flipAnimation.value),
-  //             alignment: Alignment.center,
-  //             child: child,
-  //           );
-  //         },
-  //         child: child,
-  //       );
-  //     },
-  //   );
-  // }
 
   PageRouteBuilder<Object?> whiteOut(Widget screen) {
     return PageRouteBuilder(
