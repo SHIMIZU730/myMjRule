@@ -51,7 +51,7 @@ class _ChoiceRuleState extends State<ChoiceRule> {
   Future<void> _loadData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _kyokusu = prefs.getString('kyokusu') ?? kyokuRule.tonpuu4;
+      _kyokusu = prefs.getString('kyokusu') ?? kyokuRule.hanchan4;
       _renchan = prefs.getString('renchan') ?? renchanRule.agariTenpai;
       _tochuryukyoku =
           prefs.getString('tochuryukyoku') ?? tochuryukyokuRule.nashi;
@@ -158,7 +158,7 @@ class _ChoiceRuleState extends State<ChoiceRule> {
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.only(left: 16.0),
+          padding: EdgeInsets.only(left: 16.0, top: 16.0),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(mjRule.kyokusu,

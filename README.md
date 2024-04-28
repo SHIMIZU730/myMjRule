@@ -17,6 +17,20 @@ samples, guidance on mobile development, and a full API reference.
 
 ## ios build
 
+## 実機ビルド
+
 flutter clean
 flutter build ios
 flutter install
+
+## Flutter プロジェクトから Xcode を立ち上げるためのコマンド
+
+open ios/Runner.xcworkspace
+
+## App store connect へアップするビルドファイル作成コマンド
+
+flutter build ipa
+
+## simulator のスクショ画像を撮りたい時
+
+command + shift + 4 + space
