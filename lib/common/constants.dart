@@ -2,6 +2,9 @@ const String appName = "My麻雀ルール";
 const String priPolicyUrl =
     "http://flutter-privacypolicy.s3-website-ap-northeast-1.amazonaws.com/";
 
+const String googleFormUrl =
+    "https://docs.google.com/forms/d/e/1FAIpQLScDcS_rbCY2eokj6ttEr5T5EDeYlHY5NjD15SP-CbqOcj1SMQ/viewform?usp=sf_link";
+
 class mjRule {
   static const String kyokusu = "曲数";
   static const String renchan = "連荘条件";
@@ -61,4 +64,5 @@ class appDesign {
   static const double appBarFontSize = 20.0;
   static const double ruleCheckTxtSize = 13.0;
   static const double ruleCheckBoxSize = 12.0;
+  static const double drawerDetailSize = 14.0;
 }

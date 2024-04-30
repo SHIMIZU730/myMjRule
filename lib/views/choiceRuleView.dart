@@ -1,5 +1,8 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 // import 'package:flutter_app_mj/admob/ad_mod.dart';
 import 'package:flutter_app_mj/common/constants.dart';
 import 'package:flutter_app_mj/views/ruleConfirmView.dart';
@@ -15,6 +18,7 @@ class ChoiceRule extends StatefulWidget {
 
 class _ChoiceRuleState extends State<ChoiceRule> {
   late TextEditingController _freeTextFieldController;
+  late BuildContext mainContext; // For snackbar
 
   // Default input
   String _kyokusu = kyokuRule.hanchan4;
@@ -97,6 +101,7 @@ class _ChoiceRuleState extends State<ChoiceRule> {
 
   @override
   Widget build(BuildContext context) {
+    mainContext = context; // For snackbar
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -149,7 +154,7 @@ class _ChoiceRuleState extends State<ChoiceRule> {
           ),
         ),
       ),
-      drawer: _widgetDrawer(),
+      drawer: _widgetDrawer(context),
       bottomNavigationBar: _widgetBottomButton(),
     );
   }
@@ -501,11 +506,11 @@ class _ChoiceRuleState extends State<ChoiceRule> {
     );
   }
 
-  Widget _widgetDrawer() {
+  Widget _widgetDrawer(BuildContext drawerContext) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        FocusScope.of(context).unfocus();
+        FocusScope.of(drawerContext).unfocus();
       },
       child: Drawer(
           child: Column(
@@ -515,19 +520,21 @@ class _ChoiceRuleState extends State<ChoiceRule> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 36),
               children: [
                 ListTile(
+                  leading: const Icon(Icons.home),
                   title: const Text("トップへ戻る"),
                   onTap: () {
-                    FocusScope.of(context).unfocus();
-                    navigateToTop(context);
+                    FocusScope.of(drawerContext).unfocus();
+                    navigateToTop(drawerContext);
                   },
                 ),
                 const Divider(), // Added divider to separate the buttons
                 ListTile(
+                  leading: const Icon(Icons.restore),
                   title: const Text("保存したルールをリセット"),
                   onTap: () {
                     showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
+                      context: drawerContext,
+                      builder: (BuildContext dialogContext) {
                         return AlertDialog(
                           title: const Text('確認'),
                           content: const Text('本当にリセットしてもよろしいですか？'),
@@ -535,15 +542,17 @@ class _ChoiceRuleState extends State<ChoiceRule> {
                             TextButton(
                               child: const Text('いいえ'),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                Navigator.of(dialogContext)
+                                    .pop(); // Close dialog only
                               },
                             ),
                             TextButton(
                               child: const Text('はい'),
                               onPressed: () {
-                                Navigator.of(context).pop(); // Close dialog
+                                Navigator.of(dialogContext)
+                                    .pop(); // Close dialog only
                                 _resetData();
-                                ScaffoldMessenger.of(context).showSnackBar(
+                                ScaffoldMessenger.of(mainContext).showSnackBar(
                                   SnackBar(
                                     content: const Text('保存したルールをリセットしました。',
                                         style: TextStyle(
@@ -554,7 +563,8 @@ class _ChoiceRuleState extends State<ChoiceRule> {
                                         Theme.of(context).colorScheme.primary,
                                   ),
                                 );
-                                Navigator.pop(context); // Close drawer
+                                Navigator.of(drawerContext)
+                                    .pop(); // Close drawer only
                               },
                             ),
                           ],
@@ -563,8 +573,20 @@ class _ChoiceRuleState extends State<ChoiceRule> {
                     );
                   },
                 ),
+                const Divider(), // Added divider to separate the buttons
+                const ListTile(
+                  contentPadding: EdgeInsets.fromLTRB(3, 0, 0, 0),
+                  title: Text(
+                    "アプリ情報",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ),
                 ListTile(
-                  title: const Text("プライバシーポリシー"),
+                  leading: const Icon(Icons.privacy_tip),
+                  title: const Text(
+                    "プライバシーポリシー",
+                    style: TextStyle(fontSize: appDesign.drawerDetailSize),
+                  ),
                   onTap: () async {
                     showDialog(
                       context: context,
@@ -585,6 +607,43 @@ class _ChoiceRuleState extends State<ChoiceRule> {
                                 Navigator.of(context).pop(); // Close dialog
                                 // for privacypolicy url
                                 final url = Uri.parse(priPolicyUrl);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.contact_mail_rounded),
+                  title: const Text(
+                    "お問いわせフォーム",
+                    style: TextStyle(fontSize: appDesign.drawerDetailSize),
+                  ),
+                  onTap: () async {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('確認'),
+                          content: const Text('web画面に遷移してもよろしいですか？'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('いいえ'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('はい'),
+                              onPressed: () async {
+                                Navigator.of(context).pop(); // Close dialog
+                                // for privacypolicy url
+                                final url = Uri.parse(googleFormUrl);
                                 if (await canLaunchUrl(url)) {
                                   await launchUrl(url);
                                 }

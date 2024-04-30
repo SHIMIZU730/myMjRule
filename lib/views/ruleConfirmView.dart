@@ -26,6 +26,12 @@ class RuleConfirm extends StatefulWidget {
   _RuleConfirmState createState() => _RuleConfirmState();
 }
 
+class RuleConfirmAppDesign {
+  static const double containerGreenBarWidth = 3;
+  static const double containerSizeBoxWidth = 8;
+  static const EdgeInsets subtitlePadding = EdgeInsets.fromLTRB(8, 3, 0, 0);
+}
+
 class _RuleConfirmState extends State<RuleConfirm> {
   String _kyokusuueMoji = '';
   String _renchanMoji = '';
@@ -77,28 +83,130 @@ class _RuleConfirmState extends State<RuleConfirm> {
                   shrinkWrap: true,
                   children: <Widget>[
                     ListTile(
-                      title: const Text(mjRule.kyokusu),
-                      subtitle: Text(_kyokusuueMoji),
+                      title: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Container(
+                              width:
+                                  RuleConfirmAppDesign.containerGreenBarWidth,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(
+                                width:
+                                    RuleConfirmAppDesign.containerSizeBoxWidth),
+                            const Text(mjRule.kyokusu),
+                          ],
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: RuleConfirmAppDesign.subtitlePadding,
+                        child: Text(_kyokusuueMoji),
+                      ),
                     ),
                     ListTile(
-                      title: const Text(mjRule.renchan),
-                      subtitle: Text(_renchanMoji),
+                      title: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Container(
+                              width:
+                                  RuleConfirmAppDesign.containerGreenBarWidth,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(
+                                width:
+                                    RuleConfirmAppDesign.containerSizeBoxWidth),
+                            const Text(mjRule.renchan),
+                          ],
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: RuleConfirmAppDesign.subtitlePadding,
+                        child: Text(_renchanMoji),
+                      ),
                     ),
                     ListTile(
-                      title: const Text(mjRule.tochuryukyoku),
-                      subtitle: Text(_tochuryukyokuMoji),
+                      title: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Container(
+                              width:
+                                  RuleConfirmAppDesign.containerGreenBarWidth,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(
+                                width:
+                                    RuleConfirmAppDesign.containerSizeBoxWidth),
+                            const Text(mjRule.tochuryukyoku),
+                          ],
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: RuleConfirmAppDesign.subtitlePadding,
+                        child: Text(_tochuryukyokuMoji),
+                      ),
                     ),
                     ListTile(
-                      title: const Text(mjRule.agariyame),
-                      subtitle: Text(_agariyameMoji),
+                      title: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Container(
+                              width:
+                                  RuleConfirmAppDesign.containerGreenBarWidth,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(
+                                width:
+                                    RuleConfirmAppDesign.containerSizeBoxWidth),
+                            const Text(mjRule.agariyame),
+                          ],
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: RuleConfirmAppDesign.subtitlePadding,
+                        child: Text(_agariyameMoji),
+                      ),
                     ),
                     ListTile(
-                      title: const Text(mjRule.kuitanAtoduke),
-                      subtitle: Text(_kuitanAtozukeMoji),
+                      title: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Container(
+                              width:
+                                  RuleConfirmAppDesign.containerGreenBarWidth,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(
+                                width:
+                                    RuleConfirmAppDesign.containerSizeBoxWidth),
+                            const Text(mjRule.kuitanAtoduke),
+                          ],
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: RuleConfirmAppDesign.subtitlePadding,
+                        child: Text(_kuitanAtozukeMoji),
+                      ),
                     ),
                     ListTile(
-                      title: const Text(mjRule.fu_calc),
-                      subtitle: Text(_fuCalcValueMoji),
+                      title: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Container(
+                              width:
+                                  RuleConfirmAppDesign.containerGreenBarWidth,
+                              color: Colors.green,
+                            ),
+                            const SizedBox(
+                                width:
+                                    RuleConfirmAppDesign.containerSizeBoxWidth),
+                            const Text(mjRule.fu_calc),
+                          ],
+                        ),
+                      ),
+                      subtitle: Padding(
+                        padding: RuleConfirmAppDesign.subtitlePadding,
+                        child: Text(_fuCalcValueMoji),
+                      ),
                     ),
                   ],
                 ),
@@ -109,8 +217,23 @@ class _RuleConfirmState extends State<RuleConfirm> {
               child: Container(
                 color: Theme.of(context).colorScheme.background,
                 child: ListTile(
-                  title: const Text(mjRule.freeTextAreaLabel),
-                  subtitle: Text(_freeTextFieldMoji),
+                  title: IntrinsicHeight(
+                    child: Row(
+                      children: [
+                        Container(
+                          width: RuleConfirmAppDesign.containerGreenBarWidth,
+                          color: Colors.green,
+                        ),
+                        const SizedBox(
+                            width: RuleConfirmAppDesign.containerSizeBoxWidth),
+                        const Text(mjRule.freeTextAreaLabel),
+                      ],
+                    ),
+                  ),
+                  subtitle: Padding(
+                    padding: RuleConfirmAppDesign.subtitlePadding,
+                    child: Text(_freeTextFieldMoji),
+                  ),
                 ),
               ),
             ),
