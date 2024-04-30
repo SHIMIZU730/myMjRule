@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -16,10 +17,10 @@ Future<ByteData?> exportWidgetToImage(GlobalKey globalKey) async {
   // Convert to image
   final image = await boundary.toImage(pixelRatio: 3);
   // Convert to bytedata
-  final ByteData = await image.toByteData(
+  final byteData = await image.toByteData(
     format: ImageByteFormat.png,
   );
-  return ByteData;
+  return byteData;
 }
 
 // Save the image to the local path
@@ -44,11 +45,13 @@ Future<io.File> getApplicationDocumentsFile(
 // Share the widget image
 // args : globalkey -> Globalkey
 void shareWidgetImage(
-    {required GlobalKey globalKey, GlobalKey? textFielldKey}) async {
+    {required GlobalKey globalKey,
+    GlobalKey? textFieldKey,
+    required Function callback}) async {
   final List<GlobalKey> gloKeyList = [];
   gloKeyList.add(globalKey);
-  if (textFielldKey != null) {
-    gloKeyList.add(textFielldKey);
+  if (textFieldKey != null) {
+    gloKeyList.add(textFieldKey);
   }
 
   List<String> imgPathList = [];
@@ -65,10 +68,10 @@ void shareWidgetImage(
     fileName = globalKey.toString().replaceAll("GlobalKey", "");
     fileName = fileName.replaceAll("[", "");
     fileName = fileName.replaceAll("]", "");
-    if (globalKey == textFielldKey) {
-      fileName = 'mj-rule2-${fileName}';
+    if (globalKey == textFieldKey) {
+      fileName = 'mj-rule2-$fileName';
     } else if (globalKey == globalKey) {
-      fileName = 'mj-rule1-${fileName}';
+      fileName = 'mj-rule1-$fileName';
     } else {
       fileName = globalKey.toString();
     }
@@ -83,15 +86,23 @@ void shareWidgetImage(
     imgPathList.add(applicationDocumensFile.path);
   }
 
+  // Success 0,
+  // Cancel 1,
+  // Exception 9
+  int statusCode = 0;
+
   // Exec share action
-  // await Share.shareXFiles(imgPathList.map((path) => XFile(path)).toList(),
-  //     text: "今回の麻雀のルールです", subject: "My麻雀ルール");
-
-  final result = await Share.shareXFiles(
-      [XFile(imgPathList[0]), (XFile(imgPathList[1]))],
-      text: "今回の麻雀のルールです。", subject: "My麻雀ルール");
-
-  if (result.status == ShareResultStatus.dismissed) {
-    print('写真じゃないらしい');
+  try {
+    final result = await Share.shareXFiles(
+        [XFile(imgPathList[0]), (XFile(imgPathList[1]))],
+        text: "今回の麻雀のルールです。", subject: "My麻雀ルール");
+    if (result.status == ShareResultStatus.success) {
+      statusCode = 0;
+    } else {
+      statusCode = 1;
+    }
+  } catch (e) {
+    statusCode = 9;
   }
+  callback(statusCode);
 }

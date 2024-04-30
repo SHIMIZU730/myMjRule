@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_app_mj/common/constants.dart';
-import 'package:flutter_app_mj/views/choiceRuleView.dart';
+import 'package:flutter_app_mj/views/choice_rule_view.dart';
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'theme.dart';
 
@@ -70,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pushReplacement(
-                      whiteOut(ChoiceRule()),
+                      whiteOut(const ChoiceRule()),
                     );
                   },
                   child: Text(
