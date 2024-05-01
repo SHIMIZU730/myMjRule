@@ -3,6 +3,7 @@ import 'dart:io' as io;
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -44,10 +45,12 @@ Future<io.File> getApplicationDocumentsFile(
 
 // Share the widget image
 // args : globalkey -> Globalkey
-void shareWidgetImage(
-    {required GlobalKey globalKey,
-    GlobalKey? textFieldKey,
-    required Function callback}) async {
+void shareWidgetImage({
+  required GlobalKey globalKey,
+  GlobalKey? textFieldKey,
+  required Function callback,
+  required GlobalKey shareBtnKey,
+}) async {
   final List<GlobalKey> gloKeyList = [];
   gloKeyList.add(globalKey);
   if (textFieldKey != null) {
@@ -55,9 +58,8 @@ void shareWidgetImage(
   }
 
   List<String> imgPathList = [];
-
   for (var globalKey in gloKeyList) {
-// Convert the widget to image
+    // Convert the widget to image
     var byteData = await exportWidgetToImage(globalKey);
     if (byteData == null) {
       return;
@@ -94,8 +96,11 @@ void shareWidgetImage(
   // Exec share action
   try {
     final result = await Share.shareXFiles(
-        [XFile(imgPathList[0]), (XFile(imgPathList[1]))],
-        text: "今回の麻雀のルールです。", subject: "My麻雀ルール");
+      [XFile(imgPathList[0]), (XFile(imgPathList[1]))],
+      text: "今回の麻雀のルールです。",
+      subject: "My麻雀ルール",
+      sharePositionOrigin: shareButtonRectForIpad(shareBtnKey),
+    );
     if (result.status == ShareResultStatus.success) {
       statusCode = 0;
     } else {
@@ -105,4 +110,16 @@ void shareWidgetImage(
     statusCode = 9;
   }
   callback(statusCode);
+}
+
+// Create share button window for ipad
+Rect shareButtonRectForIpad(shareBtnKey) {
+  RenderBox box = shareBtnKey.currentContext?.findRenderObject() as RenderBox;
+  Size size = box.size;
+  Offset position = box.localToGlobal(Offset.zero);
+  return Rect.fromCenter(
+    center: position + Offset(size.width / 2, size.height / 2),
+    width: size.width,
+    height: size.height,
+  );
 }

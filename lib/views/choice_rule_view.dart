@@ -576,11 +576,13 @@ class ChoiceRuleState extends State<ChoiceRule> {
           TextField(
             controller: _freeTextFieldController,
             keyboardType: TextInputType.multiline,
-            maxLines: null,
+            minLines: 1,
+            maxLines:
+                10, // maxline has a bug, so more than the set number of characters can be entered
             autofocus: false,
             inputFormatters: [
-              LengthLimitingTextInputFormatter(1000)
-            ], // Set max character limit to 1000
+              LengthLimitingTextInputFormatter(500)
+            ], // Set max character limit to 500
             onChanged: (value) {
               setState(() {
                 _freeTextFieldValue = value;

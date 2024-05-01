@@ -35,9 +35,11 @@ class RuleConfirmState extends State<RuleConfirm> {
   String _fuCalcValueMoji = '';
   String _freeTextFieldMoji = '';
 
-  // Create globalkey for screen shot
+  // Create global key for screen shot
   final convertWidgetToImageKey = GlobalKey();
   final convertTextareaToImageKey = GlobalKey();
+  // Create global key for share function of ipad
+  final shareBtnKey = GlobalKey();
 
   // App design
   static EdgeInsets subtitlePadding = const EdgeInsets.fromLTRB(8, 3, 0, 0);
@@ -266,35 +268,33 @@ class RuleConfirmState extends State<RuleConfirm> {
           ],
         ),
       ),
-      bottomNavigationBar: _widgetBottomButton(),
-    );
-  }
-
-  Widget _widgetBottomButton() {
-    return BottomAppBar(
-      color: Theme.of(context).colorScheme.background,
-      elevation: 0,
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 60),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-        ),
-        onPressed: () {
-          shareWidgetImage(
-              globalKey: convertWidgetToImageKey,
-              textFieldKey: convertTextareaToImageKey,
-              callback: handleShareResult);
-        },
-        icon: Icon(
-          Icons.share,
-          color: Theme.of(context).colorScheme.onPrimary,
-        ),
-        label: Text(
-          "シェア",
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: AppDesign.btnFontSize,
-              fontWeight: FontWeight.bold),
+      bottomNavigationBar: BottomAppBar(
+        key: shareBtnKey,
+        color: Theme.of(context).colorScheme.background,
+        elevation: 0,
+        child: ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 60),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
+          onPressed: () {
+            shareWidgetImage(
+                globalKey: convertWidgetToImageKey,
+                textFieldKey: convertTextareaToImageKey,
+                callback: handleShareResult,
+                shareBtnKey: shareBtnKey);
+          },
+          icon: Icon(
+            Icons.share,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+          label: Text(
+            "シェア",
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontSize: AppDesign.btnFontSize,
+                fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
